@@ -90,4 +90,34 @@ abstract class AbstractConfigurableRmiRegistry implements RmiRegistry, Initializ
     public String[] list() throws RemoteException, AccessException {
         return registry.list();
     }
+
+    @Override
+    public <T extends Remote> T lookup(Class<T> cls) throws RemoteException, NotBoundException {
+        return cls.cast(registry.lookup(cls.getName()));
+    }
+
+    @Override
+    public <T extends Remote> T lookup(Class<T> cls, String name) throws RemoteException, NotBoundException {
+        return cls.cast(registry.lookup(name));
+    }
+
+    @Override
+    public void bind(Remote obj) throws RemoteException, AlreadyBoundException {
+        registry.bind(obj.getClass().getName(), obj);
+    }
+
+    @Override
+    public <T extends Remote> void bind(Class<? super T> cls, T obj) throws RemoteException, AlreadyBoundException {
+        registry.bind(cls.getName(), obj);
+    }
+
+    @Override
+    public <T extends Remote> void unbind(Class<T> cls) throws RemoteException, NotBoundException {
+        registry.unbind(cls.getName());
+    }
+
+    @Override
+    public <T extends Remote> void rebind(Class<? super T> cls, T obj) throws RemoteException {
+        registry.rebind(cls.getName(), obj);
+    }
 }
