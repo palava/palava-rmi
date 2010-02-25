@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.rmi.AlreadyBoundException;
 import java.rmi.NoSuchObjectException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -38,6 +39,12 @@ import java.rmi.server.UnicastRemoteObject;
 class ConfigurableRmiUnicast implements RmiUnicast {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigurableRmiUnicast.class);
     private Integer port = null;
+    private RmiRegistry rmiRegistry;
+
+    @Inject
+    public ConfigurableRmiUnicast(RmiRegistry rmiRegistry) {
+        this.rmiRegistry = rmiRegistry;
+    }
 
     @Inject(optional = true)
     protected void setPort(@Named(RmiConfig.PORT) int port) {
@@ -47,13 +54,22 @@ class ConfigurableRmiUnicast implements RmiUnicast {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T exportObject(Remote remote) throws RemoteException {
+    public <T extends Remote> T exportObject(Class<T> cls, T remote) throws RemoteException {
         LOG.info("exporting {}", remote.getClass().getName());
         if (port == null) {
-            return (T)UnicastRemoteObject.exportObject(remote);
+            return cls.cast(UnicastRemoteObject.exportObject(remote, 0));
         } else {
-            return (T)UnicastRemoteObject.exportObject(remote, port);
+            return cls.cast(UnicastRemoteObject.exportObject(remote, port));
         }
+    }
+
+    @Override
+    public <T extends Remote> T exportObjectAndBind(Class<T> cls, T remote) throws RemoteException, AlreadyBoundException {
+        T stub = exportObject(cls, remote);
+
+        rmiRegistry.bind(cls, stub);
+
+        return stub;
     }
 
     @Override

@@ -21,6 +21,7 @@ package de.cosmocode.palava.rmi;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.rmi.AlreadyBoundException;
 import java.rmi.NoSuchObjectException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -41,7 +42,19 @@ public interface RmiUnicast {
      * @return
      * @throws RemoteException
      */
-    <T> T exportObject(Remote remote) throws RemoteException;
+    <T extends Remote> T exportObject(Class<T> cls, T remote) throws RemoteException;
+
+    /**
+     * Exports a {@link Remote} object (makes it available through RMI to other JVMs) and
+     * binds it to the registry.
+     *
+     * @param cls
+     * @param remote
+     * @param <T>
+     * @return
+     * @throws RemoteException
+     */
+    <T extends Remote> T exportObjectAndBind(Class<T> cls, T remote) throws RemoteException, AlreadyBoundException;
 
     /**
      * Removes the object from the public RMI interface.
