@@ -65,12 +65,13 @@ abstract class AbstractConfigurableRmiRegistry implements RmiRegistry, Initializ
 
     @Override
     public Remote lookup(String name) throws RemoteException, NotBoundException, AccessException {
+        LOG.trace("looking up {}");
         return registry.lookup(name);
     }
 
     @Override
     public void bind(String name, Remote obj) throws RemoteException, AlreadyBoundException, AccessException {
-        LOG.info("binding {} with {}", name, obj);
+        LOG.info("binding {} with {}");
         registry.bind(name, obj);
     }
 
@@ -93,31 +94,31 @@ abstract class AbstractConfigurableRmiRegistry implements RmiRegistry, Initializ
 
     @Override
     public <T extends Remote> T lookup(Class<T> cls) throws RemoteException, NotBoundException {
-        return cls.cast(registry.lookup(cls.getName()));
+        return cls.cast(lookup(cls.getName()));
     }
 
     @Override
     public <T extends Remote> T lookup(Class<T> cls, String name) throws RemoteException, NotBoundException {
-        return cls.cast(registry.lookup(name));
+        return cls.cast(lookup(name));
     }
 
     @Override
     public void bind(Remote obj) throws RemoteException, AlreadyBoundException {
-        registry.bind(obj.getClass().getName(), obj);
+        bind(obj.getClass().getName(), obj);
     }
 
     @Override
     public <T extends Remote> void bind(Class<? super T> cls, T obj) throws RemoteException, AlreadyBoundException {
-        registry.bind(cls.getName(), obj);
+        bind(cls.getName(), obj);
     }
 
     @Override
     public <T extends Remote> void unbind(Class<T> cls) throws RemoteException, NotBoundException {
-        registry.unbind(cls.getName());
+        unbind(cls.getName());
     }
 
     @Override
     public <T extends Remote> void rebind(Class<? super T> cls, T obj) throws RemoteException {
-        registry.rebind(cls.getName(), obj);
+        rebind(cls.getName(), obj);
     }
 }
