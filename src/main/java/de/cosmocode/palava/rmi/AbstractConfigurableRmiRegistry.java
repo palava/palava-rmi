@@ -65,13 +65,13 @@ abstract class AbstractConfigurableRmiRegistry implements RmiRegistry, Initializ
 
     @Override
     public Remote lookup(String name) throws RemoteException, NotBoundException, AccessException {
-        LOG.trace("looking up {}");
+        LOG.trace("looking up {}", name);
         return registry.lookup(name);
     }
 
     @Override
     public void bind(String name, Remote obj) throws RemoteException, AlreadyBoundException, AccessException {
-        LOG.info("binding {} with {}");
+        LOG.info("binding {} with {}", name, obj);
         registry.bind(name, obj);
     }
 
