@@ -19,21 +19,27 @@
 
 package de.cosmocode.palava.rmi;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
-import de.cosmocode.palava.core.lifecycle.Initializable;
-import de.cosmocode.palava.core.lifecycle.LifecycleException;
+import java.rmi.AlreadyBoundException;
+import java.rmi.NotBoundException;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.registry.Registry;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.rmi.*;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+
+import de.cosmocode.palava.core.lifecycle.Initializable;
+import de.cosmocode.palava.core.lifecycle.LifecycleException;
 
 /**
+ * 
  * @author Tobias Sarnowski
  */
 abstract class AbstractConfigurableRmiRegistry implements RmiRegistry, Initializable {
+    
     private static final Logger LOG = LoggerFactory.getLogger(AbstractConfigurableRmiRegistry.class);
 
     private Registry registry;
@@ -64,31 +70,31 @@ abstract class AbstractConfigurableRmiRegistry implements RmiRegistry, Initializ
     }
 
     @Override
-    public Remote lookup(String name) throws RemoteException, NotBoundException, AccessException {
+    public Remote lookup(String name) throws RemoteException, NotBoundException {
         LOG.trace("looking up {}", name);
         return registry.lookup(name);
     }
 
     @Override
-    public void bind(String name, Remote obj) throws RemoteException, AlreadyBoundException, AccessException {
+    public void bind(String name, Remote obj) throws RemoteException, AlreadyBoundException {
         LOG.info("binding {} with {}", name, obj);
         registry.bind(name, obj);
     }
 
     @Override
-    public void unbind(String name) throws RemoteException, NotBoundException, AccessException {
+    public void unbind(String name) throws RemoteException, NotBoundException {
         LOG.info("unbinding {}", name);
         registry.unbind(name);
     }
 
     @Override
-    public void rebind(String name, Remote obj) throws RemoteException, AccessException {
+    public void rebind(String name, Remote obj) throws RemoteException {
         LOG.info("rebinding {} with {}", name, obj);
         registry.rebind(name, obj);
     }
 
     @Override
-    public String[] list() throws RemoteException, AccessException {
+    public String[] list() throws RemoteException {
         return registry.list();
     }
 
