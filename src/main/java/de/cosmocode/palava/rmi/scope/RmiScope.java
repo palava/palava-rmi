@@ -24,7 +24,6 @@ import com.google.inject.Scope;
 
 import de.cosmocode.palava.core.scope.AbstractScope;
 import de.cosmocode.palava.core.scope.ScopeContext;
-import de.cosmocode.palava.core.scope.ScopeManagement;
 import de.cosmocode.palava.core.scope.SimpleScopeContext;
 
 /**
@@ -53,7 +52,7 @@ public final class RmiScope extends AbstractScope<ScopeContext> implements Scope
     public void exit() {
         Preconditions.checkState(inProgress(), "There is no %s block in progress", this);
         final ScopeContext context = get();
-        ScopeManagement.destroy(context);
+        context.clear();
         contexts.remove();
     }
     
