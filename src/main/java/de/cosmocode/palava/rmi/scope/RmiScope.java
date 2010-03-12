@@ -19,10 +19,12 @@
 
 package de.cosmocode.palava.rmi.scope;
 
+import com.google.common.base.Preconditions;
 import com.google.inject.Scope;
 
 import de.cosmocode.palava.core.scope.AbstractScope;
 import de.cosmocode.palava.core.scope.ScopeContext;
+import de.cosmocode.palava.core.scope.ScopeManagement;
 import de.cosmocode.palava.core.scope.SimpleScopeContext;
 
 /**
@@ -39,18 +41,19 @@ public final class RmiScope extends AbstractScope<ScopeContext> implements Scope
         return contexts.get();
     }
     
-    @Override
-    protected boolean inProgress() {
-        return contexts.get() != null;
+    public boolean inProgress() {
+        return get() != null;
     }
     
-    @Override
-    protected void doEnter() {
+    public void enter() {
+        Preconditions.checkState(!inProgress(), "There is already a %s block in progress", this);
         contexts.set(new SimpleScopeContext());
     }
     
-    @Override
-    protected void doExit() {
+    public void exit() {
+        Preconditions.checkState(inProgress(), "There is no %s block in progress", this);
+        final ScopeContext context = get();
+        ScopeManagement.destroy(context);
         contexts.remove();
     }
     
