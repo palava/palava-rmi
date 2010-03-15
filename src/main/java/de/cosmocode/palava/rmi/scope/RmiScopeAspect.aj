@@ -31,9 +31,9 @@ import com.google.inject.Inject;
 
 import de.cosmocode.palava.core.aop.AbstractPalavaAspect;
 
-public final aspect RmiScopeApsect extends AbstractPalavaAspect issingleton() {
+public final aspect RmiScopeAspect extends AbstractPalavaAspect issingleton() {
 
-    private static final Logger LOG = LoggerFactory.getLogger(RmiScopeApsect.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RmiScopeAspect.class);
 
     private RmiScope scope;
     
