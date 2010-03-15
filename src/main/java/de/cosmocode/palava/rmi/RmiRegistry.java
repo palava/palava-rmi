@@ -19,11 +19,15 @@
 
 package de.cosmocode.palava.rmi;
 
-import java.io.Serializable;
-import java.rmi.*;
+import java.rmi.AlreadyBoundException;
+import java.rmi.NotBoundException;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 
 /**
+ * 
+ * 
  * @author Tobias Sarnowski
  */
 public interface RmiRegistry extends Registry {

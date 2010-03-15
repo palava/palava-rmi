@@ -19,25 +19,25 @@
 
 package de.cosmocode.palava.rmi;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
-import de.cosmocode.palava.core.lifecycle.Initializable;
-import de.cosmocode.palava.core.lifecycle.LifecycleException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.rmi.*;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
+ * Implementation of the {@link RmiRegistry} interface which uses a
+ * local registry by calling {@link LocateRegistry#createRegistry(int)}.
+ * 
  * @author Tobias Sarnowski
  */
-class ConfigurableRmiLocalRegistry extends AbstractConfigurableRmiRegistry {
+final class ConfigurableLocalRmiRegistry extends AbstractConfigurableRmiRegistry {
+    
     private static final Logger LOG = LoggerFactory.getLogger(ConfigurableRmiRemoteRegistry.class);
 
     @Override
-    Registry initializeRegistry(String host, int port) throws RemoteException {
+    protected Registry initializeRegistry(String host, int port) throws RemoteException {
         LOG.info("starting local registry on port {}", port);
         return LocateRegistry.createRegistry(port);
     }
@@ -46,4 +46,5 @@ class ConfigurableRmiLocalRegistry extends AbstractConfigurableRmiRegistry {
     public boolean isLocal() {
         return true;
     }
+    
 }

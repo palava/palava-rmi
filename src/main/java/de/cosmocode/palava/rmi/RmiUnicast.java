@@ -25,11 +25,11 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.NoSuchObjectException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.ServerNotActiveException;
 
 /**
+ * 
+ * 
  * @author Tobias Sarnowski
  */
 public interface RmiUnicast {
@@ -66,11 +66,30 @@ public interface RmiUnicast {
      */
     boolean unexportObject(Remote remote, boolean force) throws NoSuchObjectException;
 
+    /**
+     * 
+     * @return
+     * @throws ServerNotActiveException
+     */
     String getClientHost() throws ServerNotActiveException;
 
+    /**
+     * 
+     * @return
+     */
     PrintStream getLog();
 
+    /**
+     * 
+     * @param outputStream
+     */
     void setLog(OutputStream outputStream);
 
+    /**
+     * 
+     * @param remote
+     * @return
+     * @throws NoSuchObjectException
+     */
     Remote toStub(Remote remote) throws NoSuchObjectException;
 }

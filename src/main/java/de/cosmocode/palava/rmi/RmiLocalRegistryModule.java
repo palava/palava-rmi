@@ -24,12 +24,15 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 
 /**
+ * Binds the {@link RmiRegistry} to {@link ConfigurableLocalRmiRegistry}.
+ * 
  * @author Tobias Sarnowski
  */
 public class RmiLocalRegistryModule implements Module {
 
     @Override
     public void configure(Binder binder) {
-        binder.bind(RmiRegistry.class).to(ConfigurableRmiLocalRegistry.class).in(Singleton.class);
+        binder.bind(RmiRegistry.class).to(ConfigurableLocalRmiRegistry.class).in(Singleton.class);
     }
+    
 }

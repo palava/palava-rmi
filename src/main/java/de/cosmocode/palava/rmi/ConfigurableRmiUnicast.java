@@ -34,18 +34,29 @@ import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 
 /**
+ * A configurable implementation of the {@link RmiUnicast} interface.
+ * 
  * @author Tobias Sarnowski
+ * @author Willi Schoenborn
  */
 class ConfigurableRmiUnicast implements RmiUnicast {
+    
     private static final Logger LOG = LoggerFactory.getLogger(ConfigurableRmiUnicast.class);
-    private Integer port = null;
+    
     private RmiRegistry rmiRegistry;
+    
+    private Integer port;
 
     @Inject
     public ConfigurableRmiUnicast(RmiRegistry rmiRegistry) {
         this.rmiRegistry = rmiRegistry;
     }
 
+    /**
+     * Configures the port of this registry.
+     * 
+     * @param port the new port value
+     */
     @Inject(optional = true)
     protected void setPort(@Named(RmiConfig.PORT) int port) {
         LOG.debug("RMI unicast port set to {}", port);
@@ -53,7 +64,6 @@ class ConfigurableRmiUnicast implements RmiUnicast {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends Remote> T exportObject(Class<T> cls, T remote) throws RemoteException {
         LOG.info("exporting {}", remote.getClass().getName());
         if (port == null) {
@@ -64,11 +74,10 @@ class ConfigurableRmiUnicast implements RmiUnicast {
     }
 
     @Override
-    public <T extends Remote> T exportObjectAndBind(Class<T> cls, T remote) throws RemoteException, AlreadyBoundException {
-        T stub = exportObject(cls, remote);
-
+    public <T extends Remote> T exportObjectAndBind(Class<T> cls, T remote) throws RemoteException, 
+        AlreadyBoundException {
+        final T stub = exportObject(cls, remote);
         rmiRegistry.bind(cls, stub);
-
         return stub;
     }
 
@@ -97,4 +106,5 @@ class ConfigurableRmiUnicast implements RmiUnicast {
     public Remote toStub(Remote remote) throws NoSuchObjectException {
         return UnicastRemoteObject.toStub(remote);
     }
+    
 }

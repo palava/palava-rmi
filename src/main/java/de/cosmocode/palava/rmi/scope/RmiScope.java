@@ -19,6 +19,9 @@
 
 package de.cosmocode.palava.rmi.scope;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Preconditions;
 import com.google.inject.Scope;
 
@@ -32,6 +35,8 @@ import de.cosmocode.palava.core.scope.SimpleScopeContext;
  * @author Willi Schoenborn
  */
 public final class RmiScope extends AbstractScope<ScopeContext> implements Scope {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(RmiScope.class);
 
     private final ThreadLocal<ScopeContext> contexts = new ThreadLocal<ScopeContext>();
 
@@ -40,20 +45,42 @@ public final class RmiScope extends AbstractScope<ScopeContext> implements Scope
         return contexts.get();
     }
     
+    /**
+     * Returns true if this scope is currently in a scoping block.
+     * 
+     * @return true if this scope is currently in progress, false otherwise
+     */
     public boolean inProgress() {
         return get() != null;
     }
     
+    /**
+     * Enters a scoping block.
+     * 
+     * @throws IllegalStateException if this scope is already in a scoping block
+     */
     public void enter() {
         Preconditions.checkState(!inProgress(), "There is already a %s block in progress", this);
+        LOG.trace("Entering {}", this);
         contexts.set(new SimpleScopeContext());
     }
     
+    /**
+     * Exits a scoping block.
+     * 
+     * @throws IllegalStateException if this scope is not in a scoping blick right now
+     */
     public void exit() {
         Preconditions.checkState(inProgress(), "There is no %s block in progress", this);
         final ScopeContext context = get();
+        LOG.trace("Exiting {}", this);
         context.clear();
         contexts.remove();
+    }
+    
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
     }
     
 }

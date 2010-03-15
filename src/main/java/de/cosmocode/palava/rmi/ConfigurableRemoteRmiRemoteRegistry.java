@@ -19,25 +19,24 @@
 
 package de.cosmocode.palava.rmi;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
-import de.cosmocode.palava.core.lifecycle.Initializable;
-import de.cosmocode.palava.core.lifecycle.LifecycleException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.rmi.*;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
+ * Implementation of the {@link RmiRegistry} interface which uses a
+ * remote registry by calling {@link LocateRegistry#getRegistry(String, int)}.
+ * 
  * @author Tobias Sarnowski
  */
 class ConfigurableRmiRemoteRegistry extends AbstractConfigurableRmiRegistry {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigurableRmiRemoteRegistry.class);
 
     @Override
-    Registry initializeRegistry(String host, int port) throws RemoteException {
+    protected Registry initializeRegistry(String host, int port) throws RemoteException {
         LOG.info("connecting to remote registry {}:{}", host, port);
         return LocateRegistry.getRegistry(host, port);
     }

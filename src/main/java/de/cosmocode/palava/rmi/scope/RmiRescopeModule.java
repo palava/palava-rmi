@@ -17,22 +17,38 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package de.cosmocode.palava.rmi;
+package de.cosmocode.palava.rmi.scope;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
-import com.google.inject.Singleton;
+
+import de.cosmocode.palava.ipc.IpcCallScoped;
+import de.cosmocode.palava.ipc.IpcConnectionScoped;
+import de.cosmocode.palava.ipc.IpcSessionScoped;
 
 /**
- * Binds the {@link RmiRegistry} interface to {@link ConfigurableRmiRemoteRegistry}.
- * 
- * @author Tobias Sarnowski
+ * Binds the {@link RmiScope} to the following scope annotations.
+ * <ul>
+ *   <li>{@link RmiScoped}</li>
+ *   <li>{@link IpcCallScoped}</li>
+ *   <li>{@link IpcConnectionScoped}</li>
+ *   <li>{@link IpcSessionScoped}</li>
+ * </ul>
+ *
+ * @author Willi Schoenborn
  */
-public class RmiRemoteRegistryModule implements Module {
+public final class RmiRescopeModule implements Module {
 
     @Override
     public void configure(Binder binder) {
-        binder.bind(RmiRegistry.class).to(ConfigurableRmiRemoteRegistry.class).in(Singleton.class);
+        final RmiScope scope = new RmiScope();
+        binder.requestInjection(scope);
+        binder.bind(RmiScope.class).toInstance(scope);
+        
+        binder.bindScope(RmiScoped.class, scope);
+        binder.bindScope(IpcCallScoped.class, scope);
+        binder.bindScope(IpcConnectionScoped.class, scope);
+        binder.bindScope(IpcSessionScoped.class, scope);
     }
-    
+
 }

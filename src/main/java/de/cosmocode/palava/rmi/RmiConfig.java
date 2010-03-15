@@ -19,13 +19,13 @@
 
 package de.cosmocode.palava.rmi;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
+ * Static constant holder class for rmi config key names.
+ * 
  * @author Tobias Sarnowski
+ * @author Willi Schoenborn
  */
-public class RmiConfig {
+public final class RmiConfig {
 
     public static final String PREFIX = "rmi.";
 
@@ -34,4 +34,8 @@ public class RmiConfig {
     public static final String REGISTRY_HOST = PREFIX + "registry.host";
     public static final String REGISTRY_PORT = PREFIX + "registry.port";
 
+    private RmiConfig() {
+        
+    }
+    
 }

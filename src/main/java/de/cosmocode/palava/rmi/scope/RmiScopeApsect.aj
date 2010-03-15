@@ -22,6 +22,7 @@ package de.cosmocode.palava.rmi.scope;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,8 +42,11 @@ public final aspect RmiScopeApsect extends AbstractPalavaAspect issingleton() {
         this.scope = Preconditions.checkNotNull(scope, "Scope");
     }
     
-    pointcut invocation(): execution(public * Remote+.*(..) throws RemoteException);
+    private pointcut noRmi(): !within(de.cosmocode.palava.rmi..*);
     
+    pointcut invocation(): execution(public * Remote+.*(..) throws RemoteException) && noRmi();
+    
+    @SuppressAjWarnings("adviceDidNotMatch")
     Object around(): invocation() {
         if (scope.inProgress()) {
             LOG.trace("Rmi scope already in progress");

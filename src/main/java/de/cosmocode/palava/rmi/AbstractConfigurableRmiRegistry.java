@@ -35,8 +35,11 @@ import de.cosmocode.palava.core.lifecycle.Initializable;
 import de.cosmocode.palava.core.lifecycle.LifecycleException;
 
 /**
+ * Abstract base implementation of the {@link RmiRegistry} interface which 
+ * allows configuration.
  * 
  * @author Tobias Sarnowski
+ * @author Willi Schoenborn
  */
 abstract class AbstractConfigurableRmiRegistry implements RmiRegistry, Initializable {
     
@@ -46,7 +49,15 @@ abstract class AbstractConfigurableRmiRegistry implements RmiRegistry, Initializ
     private String host = "localhost";
     private int port = Registry.REGISTRY_PORT;
 
-    abstract Registry initializeRegistry(String host, int port) throws RemoteException;
+    /**
+     * Delegates registry initialization to sub classes.
+     * 
+     * @param host the configured host
+     * @param port the configured port
+     * @return an initialized {@link Registry}
+     * @throws RemoteException if initializing failed
+     */
+    protected abstract Registry initializeRegistry(String host, int port) throws RemoteException;
 
     @Override
     public final void initialize() throws LifecycleException {
@@ -57,12 +68,22 @@ abstract class AbstractConfigurableRmiRegistry implements RmiRegistry, Initializ
         }
     }
 
+    /**
+     * Sets the host of this registry.
+     * 
+     * @param host the new host value
+     */
     @Inject(optional = true)
     public void setHost(@Named(RmiConfig.REGISTRY_HOST) String host) {
         this.host = host;
         LOG.trace("RMI registry host set to {}", host);
     }
 
+    /**
+     * Sets the port of this registry.
+     * 
+     * @param port the new port value
+     */
     @Inject(optional = true)
     public void setPort(@Named(RmiConfig.REGISTRY_PORT) int port) {
         this.port = port;
@@ -127,4 +148,5 @@ abstract class AbstractConfigurableRmiRegistry implements RmiRegistry, Initializ
     public <T extends Remote> void rebind(Class<? super T> cls, T obj) throws RemoteException {
         rebind(cls.getName(), obj);
     }
+    
 }
