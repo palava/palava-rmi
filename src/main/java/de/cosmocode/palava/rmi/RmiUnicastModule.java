@@ -24,6 +24,8 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 
 /**
+ * Binds the {@link RmiUnicast} to {@link ConfigurableRmiUnicast}.
+ * 
  * @author Tobias Sarnowski
  */
 public class RmiUnicastModule implements Module {
@@ -32,4 +34,5 @@ public class RmiUnicastModule implements Module {
     public void configure(Binder binder) {
         binder.bind(RmiUnicast.class).to(ConfigurableRmiUnicast.class).in(Singleton.class);
     }
+    
 }

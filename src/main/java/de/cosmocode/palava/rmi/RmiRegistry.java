@@ -40,6 +40,7 @@ public interface RmiRegistry extends Registry {
 
     /**
      * Looks up the remote object via its full name.
+     * 
      * @param cls
      * @param <T>
      * @return
@@ -50,6 +51,7 @@ public interface RmiRegistry extends Registry {
 
     /**
      * Looks up the remote object with the given class type and a special name.
+     * 
      * @param cls
      * @param name
      * @param <T>
@@ -61,6 +63,7 @@ public interface RmiRegistry extends Registry {
 
     /**
      * Binds the object with its full name.
+     * 
      * @param obj
      * @throws RemoteException
      * @throws AlreadyBoundException
@@ -69,6 +72,7 @@ public interface RmiRegistry extends Registry {
 
     /**
      * Binds the object with the full name of one of its super classes.
+     * 
      * @param cls
      * @param obj
      * @param <T>
@@ -79,6 +83,7 @@ public interface RmiRegistry extends Registry {
 
     /**
      * Unbinds the object with the given full name of the class.
+     * 
      * @param cls
      * @param <T>
      * @throws RemoteException
@@ -88,6 +93,7 @@ public interface RmiRegistry extends Registry {
 
     /**
      * Rebinds the object with the full name of one of its superclasses.
+     * 
      * @param cls
      * @param obj
      * @param <T>

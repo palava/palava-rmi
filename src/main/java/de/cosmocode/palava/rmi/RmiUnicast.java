@@ -92,4 +92,5 @@ public interface RmiUnicast {
      * @throws NoSuchObjectException
      */
     Remote toStub(Remote remote) throws NoSuchObjectException;
+    
 }
