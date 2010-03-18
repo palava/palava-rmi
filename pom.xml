@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>de.cosmocode.palava</groupId>
     <artifactId>palava-parent</artifactId>
-    <version>2.0.5</version>
+    <version>2.0.6</version>
   </parent>
   <artifactId>palava-rmi</artifactId>
   <name>Palava RMI</name>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <scm>
-    <developerConnection>scm:svn:https://palava.svn.cosmocode.de/palava-rmi/trunk</developerConnection>
+    <developerConnection>scm:svn:https://palava.svn.cosmocode.de/palava-rmi/tags/1.0.0</developerConnection>
   </scm>
   <dependencies>
     <dependency>
       <groupId>de.cosmocode.palava</groupId>
       <artifactId>palava-core</artifactId>
-      <version>2.0-SNAPSHOT</version>
+      <version>2.0.0</version>
     </dependency>
     <dependency>
       <groupId>de.cosmocode.palava</groupId>
       <artifactId>palava-ipc</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>1.0.0</version>
     </dependency>
     <dependency>
       <groupId>org.aspectj</groupId>
