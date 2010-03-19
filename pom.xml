@@ -8,9 +8,9 @@
   </parent>
   <artifactId>palava-rmi</artifactId>
   <name>Palava RMI</name>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.0.2</version>
   <scm>
-    <developerConnection>scm:svn:https://palava.svn.cosmocode.de/palava-rmi/trunk</developerConnection>
+    <developerConnection>scm:svn:https://palava.svn.cosmocode.de/palava-rmi/tags/1.0.2</developerConnection>
   </scm>
   <dependencies>
     <dependency>
