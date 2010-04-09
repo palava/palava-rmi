@@ -4,7 +4,7 @@
   <parent>
     <groupId>de.cosmocode.palava</groupId>
     <artifactId>palava-parent</artifactId>
-    <version>2.0.7</version>
+    <version>2.1.0</version>
   </parent>
   <artifactId>palava-rmi</artifactId>
   <name>Palava RMI</name>
@@ -16,12 +16,12 @@
     <dependency>
       <groupId>de.cosmocode.palava</groupId>
       <artifactId>palava-core</artifactId>
-      <version>2.3-SNAPSHOT</version>
+      <version>[2.3-SNAPSHOT,3)</version>
     </dependency>
     <dependency>
       <groupId>de.cosmocode.palava</groupId>
       <artifactId>palava-ipc</artifactId>
-      <version>1.2-SNAPSHOT</version>
+      <version>[1.2-SNAPSHOT,2)</version>
     </dependency>
     <dependency>
       <groupId>org.aspectj</groupId>
