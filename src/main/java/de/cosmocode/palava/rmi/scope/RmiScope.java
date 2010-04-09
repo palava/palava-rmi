@@ -25,9 +25,9 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Preconditions;
 import com.google.inject.Scope;
 
-import de.cosmocode.palava.core.scope.AbstractScope;
-import de.cosmocode.palava.core.scope.ScopeContext;
-import de.cosmocode.palava.core.scope.SimpleScopeContext;
+import de.cosmocode.palava.scope.AbstractScope;
+import de.cosmocode.palava.scope.ScopeContext;
+import de.cosmocode.palava.scope.SimpleScopeContext;
 
 /**
  * A custom scope implementation for RMI calls.
