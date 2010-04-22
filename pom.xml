@@ -1,47 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.cosmocode.palava</groupId>
+        <artifactId>palava-parent</artifactId>
+        <version>2.2.0</version>
+    </parent>
+
+    <name>Palava RMI</name>
+
+    <artifactId>palava-rmi</artifactId>
     <groupId>de.cosmocode.palava</groupId>
-    <artifactId>palava-parent</artifactId>
-    <version>2.1.0</version>
-  </parent>
-  <artifactId>palava-rmi</artifactId>
-  <name>Palava RMI</name>
-  <version>1.1-SNAPSHOT</version>
-  <scm>
-    <developerConnection>scm:svn:https://palava.svn.cosmocode.de/palava-rmi/trunk</developerConnection>
-  </scm>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>aspectj-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>compile</goal>
-              <goal>test-compile</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
-  <dependencies>
-    <dependency>
-      <groupId>de.cosmocode.palava</groupId>
-      <artifactId>palava-core</artifactId>
-      <version>[2.3-SNAPSHOT,3)</version>
-    </dependency>
-    <dependency>
-      <groupId>de.cosmocode.palava</groupId>
-      <artifactId>palava-ipc</artifactId>
-      <version>[1.2-SNAPSHOT,2)</version>
-    </dependency>
-    <dependency>
-      <groupId>org.aspectj</groupId>
-      <artifactId>aspectjrt</artifactId>
-    </dependency>
-  </dependencies>
+    <version>1.1-SNAPSHOT</version>
+
+    <scm>
+        <developerConnection>scm:svn:https://palava.svn.cosmocode.de/palava-rmi/trunk</developerConnection>
+    </scm>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>de.cosmocode.palava</groupId>
+            <artifactId>palava-core</artifactId>
+            <version>[2.3,3)</version>
+        </dependency>
+        <dependency>
+            <groupId>de.cosmocode.palava</groupId>
+            <artifactId>palava-ipc</artifactId>
+            <version>[1.2,2)</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+        </dependency>
+    </dependencies>
 </project>
