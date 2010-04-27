@@ -19,8 +19,19 @@ package not.in.de.cosmocode.palava.rmi;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+/**
+ * A dummy interface to check whether an advice matches.
+ *
+ * @author Willi Schoenborn
+ */
 public interface UselessService extends Remote {
 
+    /**
+     * Dummy method.
+     * 
+     * @return a name
+     * @throws RemoteException sometimes
+     */
     String getName() throws RemoteException;
     
 }

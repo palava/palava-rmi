@@ -19,7 +19,7 @@ package not.in.de.cosmocode.palava.rmi;
 import java.rmi.RemoteException;
 
 /**
- * 
+ * A dummy service to check whether an advice matches.
  *
  * @author Willi Schoenborn
  */
