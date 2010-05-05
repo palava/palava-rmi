@@ -16,6 +16,7 @@
 
 package de.cosmocode.palava.rmi;
 
+import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import org.slf4j.Logger;
@@ -40,47 +41,41 @@ class ConfigurableRmiUnicast implements RmiUnicast {
     
     private static final Logger LOG = LoggerFactory.getLogger(ConfigurableRmiUnicast.class);
     
-    private RmiRegistry rmiRegistry;
+    private final RmiRegistry registry;
     
-    private Integer port;
+    private int port;
 
     @Inject
-    public ConfigurableRmiUnicast(RmiRegistry rmiRegistry) {
-        this.rmiRegistry = rmiRegistry;
+    public ConfigurableRmiUnicast(RmiRegistry registry) {
+        this.registry = Preconditions.checkNotNull(registry, "Registry");
     }
 
-    /**
-     * Configures the port of this registry.
-     * 
-     * @param port the new port value
-     */
     @Inject(optional = true)
     protected void setPort(@Named(RmiConfig.PORT) int port) {
-        LOG.debug("RMI unicast port set to {}", port);
         this.port = port;
     }
 
     @Override
-    public <T extends Remote> T exportObject(Class<T> cls, T remote) throws RemoteException {
+    public <T extends Remote> T export(Class<T> type, T remote) throws RemoteException {
+        Preconditions.checkNotNull(type, "Type");
+        Preconditions.checkNotNull(remote, "Remote");
         LOG.info("exporting {}", remote.getClass().getName());
-        if (port == null) {
-            return cls.cast(UnicastRemoteObject.exportObject(remote, 0));
-        } else {
-            return cls.cast(UnicastRemoteObject.exportObject(remote, port));
-        }
+        return type.cast(UnicastRemoteObject.exportObject(remote, port));
     }
 
     @Override
-    public <T extends Remote> T exportObjectAndBind(Class<T> cls, T remote) throws RemoteException, 
-        AlreadyBoundException {
-        final T stub = exportObject(cls, remote);
-        rmiRegistry.bind(cls, stub);
+    public <T extends Remote> T exportAndBind(Class<T> type, T remote) throws RemoteException, AlreadyBoundException {
+        Preconditions.checkNotNull(type, "Type");
+        Preconditions.checkNotNull(remote, "Remote");
+        final T stub = export(type, remote);
+        registry.bind(type, stub);
         return stub;
     }
 
     @Override
-    public boolean unexportObject(Remote remote, boolean force) throws NoSuchObjectException {
-        LOG.info("unexporting {}", remote.getClass().getName());
+    public boolean unexport(Remote remote, boolean force) throws NoSuchObjectException {
+        Preconditions.checkNotNull(remote, "Remote");
+        LOG.info("Unexporting {}", remote.getClass().getName());
         return UnicastRemoteObject.unexportObject(remote, force);
     }
 
@@ -95,12 +90,14 @@ class ConfigurableRmiUnicast implements RmiUnicast {
     }
 
     @Override
-    public void setLog(OutputStream outputStream) {
-        UnicastRemoteObject.setLog(outputStream);
+    public void setLog(OutputStream stream) {
+        Preconditions.checkNotNull(stream, "Stream");
+        UnicastRemoteObject.setLog(stream);
     }
 
     @Override
     public Remote toStub(Remote remote) throws NoSuchObjectException {
+        Preconditions.checkNotNull(remote, "Remote");
         return UnicastRemoteObject.toStub(remote);
     }
     

@@ -25,7 +25,7 @@ import com.google.inject.Singleton;
  * 
  * @author Tobias Sarnowski
  */
-public class RmiRemoteRegistryModule implements Module {
+public class RemoteRmiRegistryModule implements Module {
 
     @Override
     public void configure(Binder binder) {

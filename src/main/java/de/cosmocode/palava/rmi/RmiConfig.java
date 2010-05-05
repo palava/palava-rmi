@@ -28,8 +28,11 @@ public final class RmiConfig {
 
     public static final String PORT = PREFIX + "port";
 
-    public static final String REGISTRY_HOST = PREFIX + "registry.host";
-    public static final String REGISTRY_PORT = PREFIX + "registry.port";
+    public static final String REGISTRY_PREFIX = PREFIX + "registry.";
+    
+    public static final String REGISTRY_HOST = REGISTRY_PREFIX + "host";
+    
+    public static final String REGISTRY_PORT = REGISTRY_PREFIX + "port";
 
     private RmiConfig() {
         

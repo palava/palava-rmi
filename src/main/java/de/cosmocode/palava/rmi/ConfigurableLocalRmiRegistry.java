@@ -35,7 +35,7 @@ final class ConfigurableLocalRmiRegistry extends AbstractConfigurableRmiRegistry
 
     @Override
     protected Registry initializeRegistry(String host, int port) throws RemoteException {
-        LOG.info("starting local registry on port {}", port);
+        LOG.info("Starting local registry on port {}", port);
         return LocateRegistry.createRegistry(port);
     }
 

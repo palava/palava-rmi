@@ -25,6 +25,7 @@ import java.rmi.registry.Registry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
@@ -42,9 +43,20 @@ abstract class AbstractConfigurableRmiRegistry implements RmiRegistry, Initializ
     
     private static final Logger LOG = LoggerFactory.getLogger(AbstractConfigurableRmiRegistry.class);
 
-    private Registry registry;
     private String host = "localhost";
     private int port = Registry.REGISTRY_PORT;
+    
+    private Registry registry;
+
+    @Inject(optional = true)
+    void setHost(@Named(RmiConfig.REGISTRY_HOST) String host) {
+        this.host = Preconditions.checkNotNull(host, "Host");
+    }
+
+    @Inject(optional = true)
+    void setPort(@Named(RmiConfig.REGISTRY_PORT) int port) {
+        this.port = port;
+    }
 
     /**
      * Delegates registry initialization to sub classes.
@@ -59,56 +71,41 @@ abstract class AbstractConfigurableRmiRegistry implements RmiRegistry, Initializ
     @Override
     public final void initialize() throws LifecycleException {
         try {
+            LOG.info("Initializing rmi registry on {}:{}", host, port);
             registry = initializeRegistry(host, port);
         } catch (RemoteException e) {
             throw new LifecycleException(e);
         }
     }
 
-    /**
-     * Sets the host of this registry.
-     * 
-     * @param host the new host value
-     */
-    @Inject(optional = true)
-    public void setHost(@Named(RmiConfig.REGISTRY_HOST) String host) {
-        this.host = host;
-        LOG.trace("RMI registry host set to {}", host);
-    }
-
-    /**
-     * Sets the port of this registry.
-     * 
-     * @param port the new port value
-     */
-    @Inject(optional = true)
-    public void setPort(@Named(RmiConfig.REGISTRY_PORT) int port) {
-        this.port = port;
-        LOG.trace("RMI registry port set to {}", port);
-    }
-
     @Override
     public Remote lookup(String name) throws RemoteException, NotBoundException {
-        LOG.trace("looking up {}", name);
+        Preconditions.checkNotNull(name, "Name");
+        LOG.trace("Looking up {}", name);
         return registry.lookup(name);
     }
 
     @Override
-    public void bind(String name, Remote obj) throws RemoteException, AlreadyBoundException {
-        LOG.info("binding {} with {}", name, obj);
-        registry.bind(name, obj);
+    public void bind(String name, Remote remote) throws RemoteException, AlreadyBoundException {
+        Preconditions.checkNotNull(name, "Name");
+        Preconditions.checkNotNull(remote, "Remote");
+        LOG.info("Binding {} with {}", name, remote);
+        registry.bind(name, remote);
     }
 
     @Override
     public void unbind(String name) throws RemoteException, NotBoundException {
-        LOG.info("unbinding {}", name);
+        Preconditions.checkNotNull(name, "Name");
+        LOG.info("Unbinding {}", name);
         registry.unbind(name);
     }
 
     @Override
-    public void rebind(String name, Remote obj) throws RemoteException {
-        LOG.info("rebinding {} with {}", name, obj);
-        registry.rebind(name, obj);
+    public void rebind(String name, Remote remote) throws RemoteException {
+        Preconditions.checkNotNull(name, "Name");
+        Preconditions.checkNotNull(remote, "Remote");
+        LOG.info("Rebinding {} with {}", name, remote);
+        registry.rebind(name, remote);
     }
 
     @Override
@@ -117,33 +114,42 @@ abstract class AbstractConfigurableRmiRegistry implements RmiRegistry, Initializ
     }
 
     @Override
-    public <T extends Remote> T lookup(Class<T> cls) throws RemoteException, NotBoundException {
-        return cls.cast(lookup(cls.getName()));
+    public <T extends Remote> T lookup(Class<T> type) throws RemoteException, NotBoundException {
+        Preconditions.checkNotNull(type, "Type");
+        return type.cast(lookup(type.getName()));
     }
 
     @Override
-    public <T extends Remote> T lookup(Class<T> cls, String name) throws RemoteException, NotBoundException {
-        return cls.cast(lookup(name));
+    public <T extends Remote> T lookup(Class<T> type, String name) throws RemoteException, NotBoundException {
+        Preconditions.checkNotNull(type, "Type");
+        Preconditions.checkNotNull(name, "Name");
+        return type.cast(lookup(name));
     }
 
     @Override
-    public void bind(Remote obj) throws RemoteException, AlreadyBoundException {
-        bind(obj.getClass().getName(), obj);
+    public void bind(Remote remote) throws RemoteException, AlreadyBoundException {
+        Preconditions.checkNotNull(remote, "Remote");
+        bind(remote.getClass().getName(), remote);
     }
 
     @Override
-    public <T extends Remote> void bind(Class<? super T> cls, T obj) throws RemoteException, AlreadyBoundException {
-        bind(cls.getName(), obj);
+    public <T extends Remote> void bind(Class<? super T> type, T remote) throws RemoteException, AlreadyBoundException {
+        Preconditions.checkNotNull(type, "Type");
+        Preconditions.checkNotNull(remote, "Remote");
+        bind(type.getName(), remote);
     }
 
     @Override
-    public <T extends Remote> void unbind(Class<T> cls) throws RemoteException, NotBoundException {
-        unbind(cls.getName());
+    public <T extends Remote> void unbind(Class<T> type) throws RemoteException, NotBoundException {
+        Preconditions.checkNotNull(type, "Type");
+        unbind(type.getName());
     }
 
     @Override
-    public <T extends Remote> void rebind(Class<? super T> cls, T obj) throws RemoteException {
-        rebind(cls.getName(), obj);
+    public <T extends Remote> void rebind(Class<? super T> type, T remote) throws RemoteException {
+        Preconditions.checkNotNull(type, "Type");
+        Preconditions.checkNotNull(remote, "Remote");
+        rebind(type.getName(), remote);
     }
     
 }
