@@ -12,10 +12,10 @@
 
     <artifactId>palava-rmi</artifactId>
     <groupId>de.cosmocode.palava</groupId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.2.0</version>
 
     <scm>
-        <developerConnection>scm:svn:https://palava.svn.cosmocode.de/palava-rmi/trunk</developerConnection>
+        <developerConnection>scm:svn:https://palava.svn.cosmocode.de/palava-rmi/tags/1.2.0</developerConnection>
     </scm>
 
     <build>
