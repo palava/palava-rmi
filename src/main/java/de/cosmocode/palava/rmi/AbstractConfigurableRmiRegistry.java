@@ -61,12 +61,12 @@ abstract class AbstractConfigurableRmiRegistry implements RmiRegistry, Initializ
     /**
      * Delegates registry initialization to sub classes.
      * 
-     * @param host the configured host
-     * @param port the configured port
+     * @param registryHost the configured host
+     * @param registryPort the configured port
      * @return an initialized {@link Registry}
      * @throws RemoteException if initializing failed
      */
-    protected abstract Registry initializeRegistry(String host, int port) throws RemoteException;
+    protected abstract Registry initializeRegistry(String registryHost, int registryPort) throws RemoteException;
 
     @Override
     public final void initialize() throws LifecycleException {
