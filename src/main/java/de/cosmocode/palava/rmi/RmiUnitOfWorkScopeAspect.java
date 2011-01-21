@@ -17,7 +17,6 @@
 package de.cosmocode.palava.rmi;
 
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 
 import de.cosmocode.palava.scope.AbstractUnitOfWorkScopeAspect;
 
@@ -29,13 +28,13 @@ import de.cosmocode.palava.scope.AbstractUnitOfWorkScopeAspect;
  * @author Willi Schoenborn
  */
 @Aspect
-final class RmiUnitOfWorkScopeAspect extends AbstractUnitOfWorkScopeAspect {
+abstract class RmiUnitOfWorkScopeAspect extends AbstractUnitOfWorkScopeAspect {
 
-    @Override
-    @Pointcut("execution(public * java.rmi.Remote+.*(..)) && !within(de.cosmocode.palava.rmi..*)")
-    protected void unitOfWork() {
-        
-    }
+//    @Override
+//    @Pointcut("execution(public * java.rmi.Remote+.*(..)) && !within(de.cosmocode.palava.rmi..*)")
+//    protected void unitOfWork() {
+//        
+//    }
 
 }
 
