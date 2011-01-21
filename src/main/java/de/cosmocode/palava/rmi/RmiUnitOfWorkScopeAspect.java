@@ -14,24 +14,28 @@
  * limitations under the License.
  */
 
-package de.cosmocode.palava.rmi.scope;
+package de.cosmocode.palava.rmi;
 
-import com.google.inject.Binder;
-import com.google.inject.Module;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+
+import de.cosmocode.palava.scope.AbstractUnitOfWorkScopeAspect;
 
 /**
- * Binds the {@link RmiScoped} to {@link RmiScope}.
+ * An {@link Aspect} which manages {@link de.cosmocode.palava.scope.UnitOfWorkScope}
+ * behaviour for remote method invocations.
  *
+ * @since 1.3
  * @author Willi Schoenborn
  */
-public final class RmiScopeModule implements Module {
+@Aspect
+final class RmiUnitOfWorkScopeAspect extends AbstractUnitOfWorkScopeAspect {
 
     @Override
-    public void configure(Binder binder) {
-        final RmiScope rmiScope = new RmiScope();
-        binder.requestInjection(rmiScope);
-        binder.bindScope(RmiScoped.class, rmiScope);
-        binder.bind(RmiScope.class).toInstance(rmiScope);
+    @Pointcut("execution(public * java.rmi.Remote+.*(..)) && !within(de.cosmocode.palava.rmi..*)")
+    protected void unitOfWork() {
+        
     }
 
 }
+
