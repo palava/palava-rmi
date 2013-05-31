@@ -21,7 +21,7 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 
 /**
- * Binds the {@link RmiRegistry} interface to {@link ConfigurableRmiRemoteRegistry}.
+ * Binds the {@link RmiRegistry} interface to {@link ConfigurableRemoteRmiRegistry}.
  * 
  * @author Tobias Sarnowski
  */
@@ -29,7 +29,7 @@ public class RemoteRmiRegistryModule implements Module {
 
     @Override
     public void configure(Binder binder) {
-        binder.bind(RmiRegistry.class).to(ConfigurableRmiRemoteRegistry.class).in(Singleton.class);
+        binder.bind(RmiRegistry.class).to(ConfigurableRemoteRmiRegistry.class).in(Singleton.class);
     }
     
 }

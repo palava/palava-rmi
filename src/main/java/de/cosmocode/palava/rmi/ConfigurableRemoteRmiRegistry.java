@@ -29,9 +29,9 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Tobias Sarnowski
  */
-class ConfigurableRmiRemoteRegistry extends AbstractConfigurableRmiRegistry {
+class ConfigurableRemoteRmiRegistry extends AbstractConfigurableRmiRegistry {
     
-    private static final Logger LOG = LoggerFactory.getLogger(ConfigurableRmiRemoteRegistry.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ConfigurableRemoteRmiRegistry.class);
 
     @Override
     protected Registry initializeRegistry(String host, int port) throws RemoteException {
